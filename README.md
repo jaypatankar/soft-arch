@@ -15,26 +15,146 @@ your own AI key.
 - **License:** MIT
 - **Stack:** Next.js 16 · React 19 · Tailwind v4 · React Flow · Zustand · dagre
 
-## Features
+---
 
-- **Canvas** — node-based diagram (React Flow) with eleven typed components
-  (client, CDN, load balancer, gateway, service, worker, queue, cache, database,
-  object storage, external). Drag from the palette, connect nodes, and label
-  edges. Edit any node or connection in the inspector.
-- **Architect Copilot** — a chat that reads the current graph + requirements and
-  can _draw/modify_ the diagram, _review_ it, _suggest_ improvements, and
-  _explain_ patterns. Quick-action buttons cover the common asks.
-- **Requirements** — capture explicit requirements and assumptions; the copilot
-  reads them, and "Clarify with AI" asks it to interview you and propose a list.
-- **Summary & recall** — everything you assume or instruct is logged. Generate a
-  running summary of your work on the `/summary` page, then ask grounded
-  questions about it ("What did I decide about the database?").
-- **Auto layout** — the AI's diagrams are arranged with an edge-aware layered
-  layout (dagre). Hit **Tidy** any time to re-arrange and re-fit the view.
-- **Local-first + shareable** — designs auto-save to the browser (IndexedDB) and
-  can be shared via a self-contained URL (no account, no backend storage).
+## ✨ Features
 
-## Routes
+### 🎨 Interactive canvas
+- **Node-based diagramming** built on [React Flow](https://reactflow.com) —
+  pan, zoom, box-select, and a live minimap color-coded by component type.
+- **Drag-and-drop palette** — drop any of the eleven typed components onto the
+  canvas from the floating palette.
+- **Click to connect** — drag from one node's handle to another to create a
+  labelled connection.
+- **Keyboard delete** — select a node or edge and press `Backspace`/`Delete`.
+- **Dotted grid, zoom controls, and auto fit-view** that re-frames the diagram
+  whenever the AI draws or you hit **Tidy**.
+
+### 🧱 Eleven typed components
+Each component carries a tier (for layout), an accent color, and a glyph. The
+copilot reasons about these same kinds, so what you draw and what it draws speak
+one vocabulary.
+
+| Glyph | Component | What it represents |
+| :---: | --- | --- |
+| ▢ | **Client** | Browser / mobile / device |
+| ☍ | **CDN** | Edge content delivery |
+| ⇄ | **Load Balancer** | Traffic distribution |
+| ⊟ | **API Gateway** | Routing, auth, rate limiting |
+| ⚙ | **Service** | Application / microservice |
+| ⚒ | **Worker** | Async / background job |
+| ≋ | **Queue** | Message broker / stream |
+| ⚡ | **Cache** | In-memory cache |
+| ⛁ | **Database** | Primary data store |
+| ⬢ | **Object Storage** | Blobs / files |
+| ↗ | **External System** | 3rd-party / SaaS API |
+
+### 🔍 Inspector
+Select any node to edit its **label**, **kind**, **technology** (e.g. Postgres,
+Redis, Kafka), and free-form **notes**. Select a connection to edit its label
+(e.g. "reads/writes", "publishes"). Delete either from here.
+
+### 🤖 Architect Copilot
+A chat panel that reads your current graph **and** requirements, and can do four
+things:
+
+1. **Draw / modify** the diagram directly on the canvas.
+2. **Review** an existing design for scalability, reliability, cost, and risk.
+3. **Suggest** alternatives and trade-offs.
+4. **Explain** architecture theory and patterns for your scenario.
+
+- **Quick-action buttons** — _Draw from requirements_, _Review scalability_,
+  _Suggest improvements_, _Risks & alternatives_.
+- **Sample prompt** — one click loads a realistic URL-shortener brief (with
+  functional + non-functional requirements) and runs it.
+- **Position-preserving edits** — the AI returns the complete graph, but nodes
+  keep their manual positions as long as their id is unchanged, so your layout
+  survives.
+
+### 📋 Requirements & assumptions
+A dedicated panel to capture what's **confirmed** (requirements) versus what's
+**assumed** (assumptions). Add, edit inline, or remove each item — the copilot
+reads them on every turn. **Clarify with AI** asks the copilot to act as a
+requirements analyst, interview you, and propose a list.
+
+### 🧭 Auto layout
+AI-generated diagrams are arranged with an edge-aware, tiered **dagre** layout
+(left-to-right by component tier). Hit **Tidy** any time to re-arrange and
+re-fit the view.
+
+### 📝 Summary & recall
+Everything you assume, require, or instruct is recorded to a durable,
+append-only log. On the `/summary` page you can:
+- **Generate a running summary** of your work — goal, confirmed requirements,
+  stated assumptions, and key decisions.
+- **Ask grounded questions** about it ("What did I decide about the database?",
+  "What assumptions have I made?"), answered **only** from your logged history.
+- **Browse the full captured history**, tagged by kind and timestamp.
+
+### 💾 Local-first & shareable
+- **Auto-save** to the browser via IndexedDB — reload and your design is still
+  there.
+- **Share via link** — the entire project (title, graph, requirements, history,
+  summary) is compressed into a URL fragment (`#d=…`). No backend, no account;
+  the fragment is **never sent to the server**. A shared link takes precedence
+  over local state when opened.
+- **Project controls** — rename the project inline, or start fresh with **New**.
+
+### 🔌 Bring your own model (5 providers)
+Point the copilot at whichever provider you have a key for — configured entirely
+in your own environment. See [AI providers](#-ai-providers) below.
+
+### 🛡️ Safety & guardrails
+- **Strict scope** — the copilot is constrained to software architecture only
+  and resists prompt-injection (treats diagram/requirements/chat as untrusted
+  data, not instructions).
+- **Input bounding** — requests are validated and capped (message count/size,
+  node/edge counts) so the endpoint can't be used as a general-purpose LLM
+  proxy.
+- **Per-IP rate limiting** — a fixed-window limiter (20 requests/minute per IP)
+  protects your key.
+- **Keys stay server-side** — provider keys are read only in the `/api/ai` and
+  `/api/summary` routes and never reach the browser.
+
+### 🌓 Theme-aware
+Light and dark mode throughout.
+
+---
+
+## 🔄 How it works
+
+```
+          ┌───────────────┐      ┌──────────────┐      ┌────────────────┐
+  you ──▶ │  Requirements │ ───▶ │   Copilot    │ ───▶ │     Canvas     │
+          │  & assumptions│      │  (/api/ai)   │      │  (React Flow)  │
+          └───────────────┘      └──────┬───────┘      └───────┬────────┘
+                 ▲                       │                      │
+                 │                  reply + graph          dagre auto-layout
+                 │                       │                      │
+                 └───────── Summary ◀────┴──────── edits ◀──────┘
+                          (/summary, /api/summary)
+```
+
+1. **Capture intent.** Add requirements and assumptions, or just describe your
+   system in the copilot. Everything you state is logged for the summary.
+2. **Draw.** The copilot drafts an architecture and returns the complete graph;
+   the canvas applies it and the dagre layout arranges it by tier.
+3. **Edit together.** Drag nodes, tweak them in the inspector, or ask the
+   copilot to review scalability, surface risks, or compare alternatives — it
+   edits in place while preserving your manual positions.
+4. **Recall & share.** Generate a running summary and ask questions grounded in
+   your history, then share the whole project as a single self-contained link.
+
+### Request flow (under the hood)
+
+`CopilotPanel` → `POST /api/ai` → **guard** (validate + rate-limit) →
+**select provider** → Anthropic native tool-use *or* OpenAI-compatible JSON →
+normalize to a `GraphSpec` → `{ reply, graph }` → `applyGraphSpec()` → dagre
+layout → canvas re-fit.
+
+---
+
+## 🗺️ Routes
 
 | Path | What it is |
 | --- | --- |
@@ -45,7 +165,9 @@ your own AI key.
 | `/api/ai` | Copilot handler → `{ reply, graph }` |
 | `/api/summary` | Summary generation + question answering |
 
-## AI providers
+---
+
+## 🔌 AI providers
 
 The copilot supports five providers, configured entirely by environment
 variables. Enable any subset by setting the matching key(s); the registry lives
@@ -67,11 +189,11 @@ JSON object.
 order (anthropic → openai → gemini → deepseek → nvidia) is used. Model defaults
 are starting points — override per provider via the model env var.
 
-Keys are read only server-side by the `/api/ai` and `/api/summary` routes and
-never reach the browser. Without any key the canvas still works and the copilot
-returns a clear error.
+Without any key the canvas still works and the copilot returns a clear error.
 
-## Getting started
+---
+
+## 🚀 Getting started
 
 **Prerequisites:** Node.js 20+ and [pnpm](https://pnpm.io) 10+.
 
@@ -106,7 +228,9 @@ pnpm start   # serve the production build
 pnpm lint    # eslint
 ```
 
-## Architecture
+---
+
+## 🧩 Project structure
 
 - `app/page.tsx` → `components/landing/Landing.tsx` — marketing landing page.
 - `app/studio/page.tsx` → `components/Studio.tsx` — the three-panel shell
@@ -123,13 +247,15 @@ pnpm lint    # eslint
   limiting).
 - `lib/store.ts` — Zustand store (graph, requirements, history, chat) +
   IndexedDB persistence.
-- `lib/nodeCatalog.ts` — the typed component catalog (glyphs, colors, labels).
+- `lib/nodeCatalog.ts` — the typed component catalog (glyphs, colors, tiers).
 - `lib/layout.ts` — dagre edge-aware layered layout.
 - `lib/share.ts` — compressed URL-hash sharing.
 - `components/canvas/*`, `components/copilot/*`, `components/requirements/*`,
   `components/summary/*`.
 
-## Contributing
+---
+
+## 🤝 Contributing
 
 Contributions are welcome! To propose a change:
 
@@ -141,13 +267,17 @@ Contributions are welcome! To propose a change:
 For larger features or questions, please open an issue first to discuss the
 direction.
 
-## Roadmap
+---
+
+## 🧭 Roadmap
 
 Not yet built from the original vision: decision records (ADRs with
 alternatives/risks as first-class artifacts) and targeted change proposals when
 a requirement changes. The `DecisionRecord` type in
 [`lib/types.ts`](lib/types.ts) is the seed.
 
-## License
+---
+
+## 📄 License
 
 [MIT](LICENSE) © Jay Patankar
