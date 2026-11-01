@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --node-border: #e4e4e7;
 }
 
 @theme inline {
@@ -16,11 +17,25 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --node-border: #3f3f46;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Landing-page pixel display font + outline treatment (see components/landing). */
+.font-pixel {
+  font-family: var(--font-pixel), ui-monospace, monospace;
+}
+.pixel-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #e7e0d0;
+}
+.pixel-stroke-blue {
+  color: transparent;
+  -webkit-text-stroke: 1.5px #7c8cdf;
 }
