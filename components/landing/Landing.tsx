@@ -10,6 +10,15 @@ const MUTED = "#8f897b";
 const BLUE = "#7c8cdf";
 const BORDER = "#38352e";
 const BG = "#1a1917";
+const REPO = "https://github.com/jaypatankar/soft-arch";
+
+function GhIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+      <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8z" />
+    </svg>
+  );
+}
 
 function Tag({ children }: { children: React.ReactNode }) {
   return (
@@ -111,9 +120,19 @@ export function Landing() {
           </span>
           <span className="text-sm font-semibold tracking-[0.25em]">SOFT-ARCH</span>
         </div>
-        <nav className="flex items-center gap-6 text-[11px] uppercase tracking-widest">
+        <nav className="flex items-center gap-4 text-[11px] uppercase tracking-widest sm:gap-6">
           <a href="#how" className="hidden sm:inline" style={{ color: MUTED }}>
             How it works
+          </a>
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 border px-3 py-1.5"
+            style={{ borderColor: BORDER, color: CREAM }}
+            aria-label="GitHub repository"
+          >
+            <GhIcon /> GitHub
           </a>
           <Link href="/studio" className="border px-3 py-1.5" style={{ borderColor: BLUE, color: BLUE }}>
             Launch &gt;&gt;&gt;
@@ -282,6 +301,34 @@ export function Landing() {
         </div>
       </section>
 
+      {/* Open source / GitHub */}
+      <section className="border-t" style={{ borderColor: BORDER, background: "#201e19" }}>
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-5 px-6 py-10 text-center sm:flex-row sm:justify-between sm:text-left">
+          <div className="flex items-center gap-4">
+            <span style={{ color: CREAM }}>
+              <GhIcon size={32} />
+            </span>
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-widest" style={{ color: CREAM }}>
+                Open source
+              </p>
+              <p className="mt-1 text-sm leading-6" style={{ color: MUTED }}>
+                SOFT-ARCH is MIT-licensed. Star it, fork it, or contribute on GitHub.
+              </p>
+            </div>
+          </div>
+          <a
+            href={REPO}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex shrink-0 items-center gap-2 border px-5 py-3 text-xs font-semibold uppercase tracking-widest"
+            style={{ borderColor: BLUE, color: BLUE }}
+          >
+            <GhIcon /> Connect on GitHub
+          </a>
+        </div>
+      </section>
+
       {/* Final CTA */}
       <section className="border-t" style={{ borderColor: BORDER }}>
         <div className="mx-auto flex max-w-6xl flex-col items-start gap-6 px-6 py-16">
@@ -297,7 +344,21 @@ export function Landing() {
       <footer className="border-t" style={{ borderColor: BORDER }}>
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-[10px] uppercase tracking-widest" style={{ color: MUTED }}>
           <span>◈ SOFT-ARCH</span>
-          <div className="flex items-center gap-5">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <a href="https://jaypatankar.vercel.app/" target="_blank" rel="noopener noreferrer" style={{ color: MUTED }}>
+              Portfolio
+            </a>
+            <a href={REPO} target="_blank" rel="noopener noreferrer" style={{ color: MUTED }}>
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/jay-patankar-337a9718b/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: MUTED }}
+            >
+              LinkedIn
+            </a>
             <Link href="/terms" style={{ color: MUTED }}>
               Terms
             </Link>
