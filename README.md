@@ -1,5 +1,9 @@
 # SOFT-ARCH
 
+### 🚀 [**Try the live app → soft-arch.vercel.app**](https://soft-arch.vercel.app/)
+
+---
+
 **An AI-assisted studio for software architects.** Sketch a system on an
 interactive canvas and work alongside an AI copilot that can draw and modify the
 diagram, review it for scalability and risk, suggest alternatives, and explain
