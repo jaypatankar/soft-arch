@@ -352,7 +352,7 @@ export function Landing() {
               GitHub
             </a>
             <a
-              href="https://www.linkedin.com/in/jay-patankar-337a9718b/"
+              href="https://www.linkedin.com/in/jaypatankar2510/"
               target="_blank"
               rel="noopener noreferrer"
               style={{ color: MUTED }}
