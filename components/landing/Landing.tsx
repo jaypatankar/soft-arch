@@ -147,14 +147,11 @@ export function Landing() {
             Architecture Studio // AI Copilot
           </p>
           <h1 className="font-pixel text-[clamp(2rem,5.5vw,3.5rem)] leading-[1.25]">
-            <span>YOU PROMPT.</span>
+            <span>YOUR SANDBOX</span>
             <br />
-            <span>WE </span>
-            <span style={{ color: BLUE }}>DRAW.</span>
+            <span>FOR THINKING</span>
             <br />
-            <span className="pixel-stroke">YOU EDIT.</span>
-            <br />
-            <span className="pixel-stroke">WE REVIEW.</span>
+            <span style={{ color: BLUE }}>IN SYSTEMS.</span>
           </h1>
 
           <p className="mt-8 max-w-md text-sm leading-7" style={{ color: MUTED }}>

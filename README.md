@@ -9,8 +9,7 @@ interactive canvas and work alongside an AI copilot that can draw and modify the
 diagram, review it for scalability and risk, suggest alternatives, and explain
 the theory behind the choices.
 
-No account, no backend storage — designs live in your browser, and you bring
-your own AI key.
+No account, no backend storage — designs live in your browser, and you bring your own AI key.
 
 > ⚠️ **Educational sandbox.** SOFT-ARCH is for learning and experimentation.
 > Diagrams and AI suggestions are not professional advice — think, verify, and
