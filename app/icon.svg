@@ -1,0 +1,16 @@
+<svg width="32" height="32" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
+  <!-- SOFT-ARCH: pixel "system" mark — two nodes feeding a hub -->
+  <rect x="0" y="0" width="32" height="32" rx="5" fill="#1a1917"/>
+  <rect x="1.5" y="1.5" width="29" height="29" rx="4" fill="none" stroke="#38352e" stroke-width="1"/>
+
+  <!-- edges (orthogonal bus into the hub) -->
+  <rect x="15" y="7"  width="2" height="18" fill="#8f897b"/>
+  <rect x="10" y="7"  width="6" height="2"  fill="#8f897b"/>
+  <rect x="10" y="23" width="6" height="2"  fill="#8f897b"/>
+  <rect x="16" y="15" width="6" height="2"  fill="#8f897b"/>
+
+  <!-- nodes -->
+  <rect x="4"  y="5"  width="6" height="6" fill="#e7e0d0"/>
+  <rect x="4"  y="21" width="6" height="6" fill="#e7e0d0"/>
+  <rect x="21" y="12" width="8" height="8" fill="#7c8cdf"/>
+</svg>
